@@ -2,6 +2,7 @@
 Sebuah tugas besar yang diberikan dari asisten laboratorium yakni, Abangda Ikhsan Shah Pohan, kepada kelompok 8.
 
 Anggota-Anggota kelompok ini adalah:
+
 0. Charles-251402081
 1. Vascha U. Lumbantoruan 251402125
 2. Patricia Putri Josephine Situmeang 251402119
