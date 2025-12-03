@@ -24,6 +24,54 @@ struct Barang {
 struct Barang data[MAX];
 int jumlahBarang = 0;
 
+int my_strlen(const char *s);
+void my_strcpy(char *dst, const char *src);
+int my_strcmp(const char *a, const char *b);
+char to_lower_char(char c);
+char* my_stristr(const char *haystack, const char *needle);
+int my_strncasecmp(const char *a, const char *b, int n);
+void read_line(char *buf, int buflen);
+int read_int(const char *prompt);
+int cariRekursifById(int id, int idx);
+void tampilBarang();
+void tambahBarang();
+void cariBarangById();
+void cariBarangByName();
+void updateBarang();
+void hapusBarang();
+void simpanKeFile();
+void loadDariFile();
+
+int main() {
+    loadDariFile();
+    printf(COLOR_GREEN "Inventori dimuat. Jumlah barang: %d\n" COLOR_RESET, jumlahBarang);
+
+    while (1) {
+        showMenu();
+        int pil = read_int("Pilih menu: ");
+        switch (pil) {
+            case 1: tambahBarang(); break;
+            case 2: tampilBarang(); break;
+            case 3: cariBarangById(); break;
+            case 4: cariBarangByName(); break;
+            case 5: updateBarang(); break;
+            case 6: hapusBarang(); break;
+            case 7: simpanKeFile(); break;
+            case 0:
+                printf(COLOR_YELLOW "Simpan otomatis sebelum keluar? (1=Ya,0=Tidak): " COLOR_RESET);
+                {
+                    int s = read_int("");
+                    if (s == 1) simpanKeFile();
+                }
+                printf(COLOR_MAGENTA "Keluar. Bye!\n" COLOR_RESET);
+                return 0;
+            default:
+                printf(COLOR_RED "Pilihan tidak valid.\n" COLOR_RESET);
+        }
+    }
+    return 0;
+}
+
 int my_strlen(const char *s) {
     int n = 0;
     while (s[n] != '\0') n++;
@@ -281,34 +329,4 @@ void showMenu() {
     printf(COLOR_GREEN "6. Hapus Barang\n" COLOR_RESET);
     printf(COLOR_GREEN "7. Simpan ke File\n" COLOR_RESET);
     printf(COLOR_YELLOW "0. Keluar\n" COLOR_RESET);
-}
-
-int main() {
-    loadDariFile();
-    printf(COLOR_GREEN "Inventori dimuat. Jumlah barang: %d\n" COLOR_RESET, jumlahBarang);
-
-    while (1) {
-        showMenu();
-        int pil = read_int("Pilih menu: ");
-        switch (pil) {
-            case 1: tambahBarang(); break;
-            case 2: tampilBarang(); break;
-            case 3: cariBarangById(); break;
-            case 4: cariBarangByName(); break;
-            case 5: updateBarang(); break;
-            case 6: hapusBarang(); break;
-            case 7: simpanKeFile(); break;
-            case 0:
-                printf(COLOR_YELLOW "Simpan otomatis sebelum keluar? (1=Ya,0=Tidak): " COLOR_RESET);
-                {
-                    int s = read_int("");
-                    if (s == 1) simpanKeFile();
-                }
-                printf(COLOR_MAGENTA "Keluar. Bye!\n" COLOR_RESET);
-                return 0;
-            default:
-                printf(COLOR_RED "Pilihan tidak valid.\n" COLOR_RESET);
-        }
-    }
-    return 0;
 }
