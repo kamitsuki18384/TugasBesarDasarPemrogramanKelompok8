@@ -24,19 +24,19 @@ struct Barang {
 struct Barang data[MAX];
 int jumlahBarang = 0;
 
-int my_strlen(const char *s);
-void my_strcpy(char *dst, const char *src);
-int my_strcmp(const char *a, const char *b);
+int strlen(const char *s);
+void strcpy(char *dst, const char *src);
+int strcmp(const char *a, const char *b);
 char to_lower_char(char c);
-char* my_stristr(const char *haystack, const char *needle);
-int my_strncasecmp(const char *a, const char *b, int n);
+char* stristr(const char *haystack, const char *needle);
+int strncasecmp(const char *a, const char *b, int n);
 void read_line(char *buf, int buflen);
 int read_int(const char *prompt);
 int cariRekursifById(int id, int idx);
 void tampilBarang();
 void tambahBarang();
 void cariBarangById();
-void cariBarangByName();
+void cariBarangByNama();
 void updateBarang();
 void hapusBarang();
 void simpanKeFile();
@@ -53,7 +53,7 @@ int main() {
             case 1: tambahBarang(); break;
             case 2: tampilBarang(); break;
             case 3: cariBarangById(); break;
-            case 4: cariBarangByName(); break;
+            case 4: cariBarangByNama(); break;
             case 5: updateBarang(); break;
             case 6: hapusBarang(); break;
             case 7: simpanKeFile(); break;
@@ -72,13 +72,13 @@ int main() {
     return 0;
 }
 
-int my_strlen(const char *s) {
+int strlen(const char *s) {
     int n = 0;
     while (s[n] != '\0') n++;
     return n;
 }
 
-void my_strcpy(char *dst, const char *src) {
+void strcpy(char *dst, const char *src) {
     int i = 0;
     while (src[i] != '\0') {
         dst[i] = src[i];
@@ -87,7 +87,7 @@ void my_strcpy(char *dst, const char *src) {
     dst[i] = '\0';
 }
 
-int my_strcmp(const char *a, const char *b) {
+int strcmp(const char *a, const char *b) {
     int i = 0;
     while (a[i] != '\0' && b[i] != '\0') {
         if (a[i] != b[i]) return (int)(a[i]) - (int)(b[i]);
@@ -101,7 +101,7 @@ char to_lower_char(char c) {
     return c;
 }
 
-int my_strncasecmp(const char *a, const char *b, int n) {
+int strncasecmp(const char *a, const char *b, int n) {
     for (int i = 0; i < n; ++i) {
         char ca = to_lower_char(a[i]);
         char cb = to_lower_char(b[i]);
@@ -111,9 +111,9 @@ int my_strncasecmp(const char *a, const char *b, int n) {
     return 0;
 }
 
-char* my_stristr(const char *haystack, const char *needle) {
-    int len_h = my_strlen(haystack);
-    int len_n = my_strlen(needle);
+char* stristr(const char *haystack, const char *needle) {
+    int len_h = strlen(haystack);
+    int len_n = strlen(needle);
     if (len_n == 0) return (char*)haystack;
 
     for (int i = 0; i <= len_h - len_n; ++i) {
@@ -133,7 +133,7 @@ void read_line(char *buf, int buflen) {
         printf(COLOR_RED "\nInput berakhir. Keluar.\n" COLOR_RESET);
         exit(0);
     }
-    int len = my_strlen(buf);
+    int len = strlen(buf);
     if (len > 0 && buf[len-1] == '\n') buf[len-1] = '\0';
 }
 
@@ -204,7 +204,7 @@ void cariBarangById() {
     }
 }
 
-void cariBarangByName() {
+void cariBarangByNama() {
     printf(COLOR_CYAN "\n=== Cari Barang (Nama) ===\n" COLOR_RESET);
     char keyword[NAME_LEN];
     printf("Masukkan kata kunci (boleh sebagian): ");
@@ -212,7 +212,7 @@ void cariBarangByName() {
 
     int found = 0;
     for (int i = 0; i < jumlahBarang; ++i) {
-        if (my_stristr(data[i].nama, keyword) != NULL) {
+        if (stristr(data[i].nama, keyword) != NULL) {
             if (!found) printf(COLOR_YELLOW "Hasil pencarian:\n" COLOR_RESET);
             struct Barang *p = &data[i];
             printf(COLOR_WHITE "ID:%d | Nama:%s | Stok:%d | Harga:%d\n" COLOR_RESET,
@@ -238,7 +238,7 @@ void updateBarang() {
     char buffer[NAME_LEN];
     printf("Masukkan nama baru (kosong = tidak berubah): ");
     read_line(buffer, NAME_LEN);
-    if (my_strlen(buffer) > 0) my_strcpy(p->nama, buffer);
+    if (strlen(buffer) > 0) strcpy(p->nama, buffer);
 
     int newstok = read_int("Masukkan stok baru: ");
     p->stok = newstok;
@@ -289,7 +289,7 @@ void loadDariFile() {
     if (!f) return;
     char line[256];
     while (fgets(line, sizeof(line), f) != NULL) {
-        int len = my_strlen(line);
+        int len = strlen(line);
         if (len > 0 && line[len-1] == '\n') line[len-1] = '\0';
 
         char *p = line;
@@ -309,7 +309,7 @@ void loadDariFile() {
         if (t >= 4) {
             if (jumlahBarang < MAX) {
                 data[jumlahBarang].id = atoi(token[0]);
-                my_strcpy(data[jumlahBarang].nama, token[1]);
+                strcpy(data[jumlahBarang].nama, token[1]);
                 data[jumlahBarang].stok = atoi(token[2]);
                 data[jumlahBarang].harga = atoi(token[3]);
                 jumlahBarang++;
